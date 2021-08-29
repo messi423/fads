@@ -2,7 +2,7 @@ import React from 'react';
 import { authAxios } from "../utils";
 import {useDispatch, useSelector} from 'react-redux';
 import { useState, useEffect } from 'react';
-import { Card, Avatar, Space } from 'antd';
+import { Card, Avatar, Space, Divider } from 'antd';
 
 import { Link } from 'react-router-dom';
 import {
@@ -33,7 +33,9 @@ const ProfilePage = () => {
 
     return(
         <div>
-            <h2>Profile </h2>
+            <Space direction="vertical" style={{marginTop:"50px"}}>
+            <h2>Self Created Advertisements</h2>
+                    <Divider/>
                 {ads.filter(fad => fad.attributes.user_id === luser.id).map((ad) => {
                     return (
                       <li key={ad.id}>
@@ -58,6 +60,7 @@ const ProfilePage = () => {
                       </li>
                     );
                   })}
+            </Space>
         </div>
     );
 }

@@ -25,7 +25,7 @@ const SignupPage = (props) => {
   return (
 
   <Space direction="vertical" style={{marginTop:"100px"}}>
-    <h2>Welcome To Messenger</h2>
+    <h2>Welcome To AdPlatform</h2>
     <Divider orientation="left" dashed></Divider>
     <br/>
     <Form

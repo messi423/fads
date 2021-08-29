@@ -31,7 +31,7 @@ const LoginPage = (props) => {
 
   return (
     <Space direction="vertical" style={{marginTop:"100px"}}>
-      <Divider dashed><h2>Welcome To Messenger</h2></Divider>
+      <Divider dashed><h2>Welcome To AD Platform</h2></Divider>
       <br/>
     <Form
       name="basic"
@@ -75,7 +75,7 @@ const LoginPage = (props) => {
     </Form>
     <Divider/>
       <Space direction="horizontal">
-        <h4>New To Messenger ?  </h4>
+        <h4>New To Platform ?  </h4>
           <a href="\signup">Signup</a>
         </Space>
       <Divider/>

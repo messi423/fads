@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { authAxios } from "../utils";
 import {useDispatch, useSelector} from 'react-redux';
-import { Card, Avatar, Space } from 'antd';
+import { Card, Avatar, Space, Divider } from 'antd';
 
 import {
   userDetail,adList
@@ -34,9 +34,13 @@ const HomePage = (props) => {
 
     return(
         <div>
-            <ul>{ads.map((ad) => {
-                console.log(ad);
+            
+            <Space direction="vertical" style={{marginTop:"50px"}}>
+            <h2>All Advertisements</h2>
+                {ads.map((ad) => {
                 return (
+                    <div>
+                    
                   <li key={ad.id}>
                       <Link to={`/ads/${ad.id}`}>
                       <Card
@@ -57,9 +61,11 @@ const HomePage = (props) => {
                     </Link>
                     <Space/>
                   </li>
+                  <Divider/>
+                  </div>
                 );
               })}
-            </ul>
+            </Space>
         </div>
     );
 }

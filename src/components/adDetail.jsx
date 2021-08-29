@@ -64,6 +64,7 @@ const AdDeatail = (props) => {
 
     return(
         <div>
+            <Space direction="vertical" style={{marginTop:"100px"}}>
             <Card
                 style={{ width: 300 }}
                 cover={
@@ -124,6 +125,7 @@ const AdDeatail = (props) => {
                     )
                 }
             </Card>
+            </Space>
         </div>
     );
 }
