@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { useState, useEffect } from 'react';
 import { authAxios } from "../utils";
 import {useDispatch, useSelector} from 'react-redux';
-import { Card, Avatar, Space, Comment, List, Divider } from 'antd';
+import { Card, Avatar, Space, Comment, List, Divider, Button, Form, Input } from 'antd';
 import {
   adId,adList, comment
 } from "../utils";
@@ -13,18 +13,25 @@ import { render } from '@testing-library/react';
 const { Meta } = Card;
 
 
-const CommentForm = (adId) => {
 
+const AdDeatail = (props) => {
+    
+    const [ad, setAds] = useState([]);
+    const [comments, setComments] = useState();
     const dispatch = useDispatch();
     const auth = useSelector(state=>state.auth);
     const luser = auth.user;
+    const [addc, setAddc] = useState(false);
+    //const [id, setId] = useState(null);
+
 
     const onFinish = (values) => {
         console.log('Success:', values);
+        const id = props.match.params.adId;
         authAxios
         .post(comment, {
             user_id: luser.id,
-            ad_id: adId, 
+            ad_id: id, 
             text: values.text
         })
         .then(res=>{
@@ -39,76 +46,24 @@ const CommentForm = (adId) => {
         console.log('Failed:', errorInfo);
       };
 
-    return(
-    <Form
-        name="basic"
-        onFinish={onFinish}
-        >
-
-        <Form.Item
-            label="Comment"
-            name="text"
-            rules={[
-            {
-                required: true,
-                message: 'Enter Comment!',
-            },
-            ]}
-        >
-            <Input />
-        </Form.Item>
-
-        <Form.Item>
-            <Button type="primary" htmlType="submit">
-            Post Comment
-            </Button>
-        </Form.Item>
-        </Form>
-    );
-}
-
-
-
-class AdDeatail extends Component {
-
-    state={
-        addc: false,
-        user_id: null, 
-        comment: "",
-        comments = [],
-        ads: [],
-    }
-
-    componentDidMount(){
-        const id = this.props.match.params.adId;
+    useEffect(()=>{
+        const id = props.match.params.adId;
         authAxios
         .get(`http://127.0.0.1:5000/api/v1/ads/${id}/`)
         .then(res=>{
-            setAds(res.data.data);
-            setComments(res.data.included);
-            //console.log(ads[0].attributes.title);
+            // console.log(ad);
+            setAds(ad => [...ad, res.data.data]);
+            //setComments(comments=>comments=res.data.included);
             console.log(ad);
-            console.log(res);
-            console.log(comments);
         })
         .catch(err => {
             console.log(err);
         })
-    }
+    }, [])
+    
 
-
-    componentDidUpdate(prevState, prevprops) {
-        const {  } = this.state;
-        if (!!this.state.addc) {
-            this.fetchUser();
-            console.log("jasnjcknsdlnkdjskjnsa,");
-            this.setState({ component_update: false, ad_address: !ad_address });
-        }
-    }
-
-    render() {
-        return (
-            <div>
+    return(
+        <div>
             <Card
                 style={{ width: 300 }}
                 cover={
@@ -124,7 +79,7 @@ class AdDeatail extends Component {
                 //description={ad.attributes.body}
                 />
                 <Divider type="horizontal" />
-                <List
+                {/* <List
                     className="comment-list"
                     header={`${comments.length} replies`}
                     itemLayout="horizontal"
@@ -134,20 +89,43 @@ class AdDeatail extends Component {
                     <Comment content={item} />
                     </li>
                     )}
-                />
+                /> */}
                 <Divider type="horizontal" />
                    <Button type="primary" onClick={()=>setAddc(!addc)}>
                     Add Comment
                     </Button>
                 <Divider type="horizontal" />
                 {
-                    addc && <CommentForm/>
+                    addc && (
+                        <Form
+                        name="basic"
+                        onFinish={onFinish}
+                        >
+
+                        <Form.Item
+                            label="Comment"
+                            name="text"
+                            rules={[
+                            {
+                                required: true,
+                                message: 'Enter Comment!',
+                            },
+                            ]}
+                        >
+                            <Input />
+                        </Form.Item>
+
+                        <Form.Item>
+                            <Button type="primary" htmlType="submit">
+                            Post Comment
+                            </Button>
+                        </Form.Item>
+                    </Form>
+                    )
                 }
             </Card>
         </div>
-        );
-    }
-
-
+    );
 }
+
 export default AdDeatail;
